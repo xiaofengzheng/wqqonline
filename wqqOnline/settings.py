@@ -47,7 +47,9 @@ INSTALLED_APPS = [
     'organization',
     'operation',
     'xadmin',
-    'crispy_forms'
+    'crispy_forms',
+    'captcha', #存储图片路径地址的表
+    'pure_pagination',
 ]
 AUTH_USER_MODEL = "users.UserProfile"
 
@@ -76,6 +78,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'django.core.context_processors.media',
+                # 配置media的django内部处理类，它就会自动将MEDIA_URL注册到HTML当中来，
+                # 如果不配置，在HTML中是取不到{{MEDIA_URL}}这个值的
             ],
         },
     },
@@ -93,7 +99,7 @@ DATABASES = {
         'NAME': "wqqonline",
         'USER': "wqq",
         'PASSWORD': "wqq123",
-        'HOST': "192.168.106.129"
+        'HOST': "192.168.106.131"
     }
 }
 
@@ -140,3 +146,14 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+EMAIL_HOST = 'smtp.sina.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'wqq0916@sina.com'
+EMAIL_HOST_PASSWORD = 'wqq/0916'
+EMAIL_USE_TLS = False
+EMAIL_FROM = 'wqq0916@sina.com'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# 上传文件的路径，在这里MEDIA_ROOT只能有一个值，不再是列表，否则不知道往哪个文件夹里存放上传的文件
