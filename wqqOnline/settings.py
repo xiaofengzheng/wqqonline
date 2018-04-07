@@ -146,6 +146,12 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+# 在debug=True，会按照上面几行中找static文件，一旦debug=False，上面几行设置就会自动失效，
+# django不会再代管你的static页面访问，一般静态文件会通过第三方HTTP服务器来代理：Apach、Nginx，
+# Django服务器、Java服务器来代理是不会做这种静态文件代理的，静态文件实际上都是由HTTP服务器转发的
+# 一旦debug=False，Django就会认为这是生产环境状态，这种static访问就会失效
+# 解决方法，让static像media一样，自己给他配置url处理函数 --- STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 EMAIL_HOST = 'smtp.sina.com'
 EMAIL_PORT = 25
