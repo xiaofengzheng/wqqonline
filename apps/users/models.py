@@ -3,6 +3,7 @@ from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
 # Create your models here.
 
 
@@ -11,6 +12,7 @@ class UserProfile(AbstractUser):
     birday = models.DateField(verbose_name="生日", null=True, blank=True)
     gender = models.CharField(max_length=6, choices=(("male", "男"), ("female", "女")), default="female")
     address = models.CharField(max_length=11, null=True, blank=True)
+    mobile = models.CharField(max_length=11, null=True, blank=True)
     image = models.ImageField(upload_to="image/%Y/%m", default="image/defult.png", max_length=100)
 
     class Meta:
@@ -20,11 +22,21 @@ class UserProfile(AbstractUser):
     def __str__(self):
         return self.username
 
+    def unread_nums(self):
+        # 获取用户未读消息的数量
+        from operation.models import UserMessage
+        """
+        必须把from operation.models import UserMessage放在函数里面，
+        不能放在文件开头，否则会和operation里面的形成循环import，
+        放在这里面，调用的时候才会import
+        """
+        return UserMessage.objects.filter(user=self.id, has_read=False).count()
+
 
 class EmailVerifyRecord(models.Model):
     code = models.CharField(max_length=20, verbose_name="验证码")
     email = models.EmailField(max_length=50, verbose_name="邮箱")
-    send_type = models.CharField(verbose_name="验证码类型", choices=(("register", "注册"), ("forget", "找回密码")), max_length=10)
+    send_type = models.CharField(verbose_name="验证码类型", choices=(("register", "注册"), ("forget", "找回密码"), ("update_email", "修改邮箱")), max_length=20)
     send_time = models.DateTimeField(verbose_name="发送时间", default=datetime.now)
 
     class Meta:
@@ -45,4 +57,7 @@ class Banner(models.Model):
     class Meta:
         verbose_name = "轮播图"
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.title
 

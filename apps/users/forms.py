@@ -3,6 +3,8 @@ __date__ = '2018/3/29 11:06'
 from django import forms
 from captcha.fields import CaptchaField
 
+from .models import UserProfile
+
 """
 把用户提交过来的表单做一部分预处理，比如说判断这个字段是否必须存在，不存在就说这个字段必须得填，最大长度是多少，
 这种判断实际上是很复杂的，如果面面俱到的话，就会发现大量的判断逻辑chong刺着post函数。
@@ -41,3 +43,15 @@ class ForgetForm(forms.Form):
 class ModifyPwdForm(forms.Form):
     password1 = forms.CharField(required=True, min_length=5)
     password2 = forms.CharField(required=True, min_length=5)
+
+
+class UploadImageForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['image']
+
+
+class UploadInfoForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['nick_name', 'gender', 'birday', 'address', 'mobile']

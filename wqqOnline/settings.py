@@ -25,9 +25,9 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 SECRET_KEY = '$bvkcqb34%7@!xwr2=8@9$1)d%!#(z+)3)vts23-9enln^z12n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'operation',
     'xadmin',
     'crispy_forms',
-    'captcha', #存储图片路径地址的表
+    'captcha', #存储验证码图片路径地址的表
     'pure_pagination',
 ]
 AUTH_USER_MODEL = "users.UserProfile"
@@ -99,7 +99,7 @@ DATABASES = {
         'NAME': "wqqonline",
         'USER': "wqq",
         'PASSWORD': "wqq123",
-        'HOST': "192.168.106.131"
+        'HOST': "192.168.106.137"
     }
 }
 
