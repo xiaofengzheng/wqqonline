@@ -28,6 +28,7 @@ class CourseAdmin(object):
     inlines = [LessonInline, CourseResourceInline]
     # 完成课程里面嵌套章节和视频资源，但只能做一层嵌套，即不能再在此页面中的章节里嵌套视频Video，不过可以在章节管理中嵌套视频Video
     list_editable = ['desc', 'degree']  # 在表列页就可以修改这些字段值，不用点进去
+    refresh_times = [3, 4, 5]  # 定时刷新，里面的数值可能取值，单位是秒
 
     def queryset(self):
         qs = super(CourseAdmin, self).queryset()
