@@ -37,6 +37,7 @@ class EmailVerifyRecordAdmin(object):
     search_fields = ['email', 'code', 'send_type']
     # 生成过滤器
     list_filter = ['email', 'code', 'send_type', 'send_time']
+    # model_icon = 'fa fa-area-char'  # 定制图标
 
 
 class BannerAdmin(object):

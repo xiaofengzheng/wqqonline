@@ -25,7 +25,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 SECRET_KEY = '$bvkcqb34%7@!xwr2=8@9$1)d%!#(z+)3)vts23-9enln^z12n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'pure_pagination',
 ]
 AUTH_USER_MODEL = "users.UserProfile"
+# from django.contrib.auth import get_user_model
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -151,7 +152,8 @@ STATICFILES_DIRS = (
 # Django服务器、Java服务器来代理是不会做这种静态文件代理的，静态文件实际上都是由HTTP服务器转发的
 # 一旦debug=False，Django就会认为这是生产环境状态，这种static访问就会失效
 # 解决方法，让static像media一样，自己给他配置url处理函数 --- STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 EMAIL_HOST = 'smtp.sina.com'
 EMAIL_PORT = 25

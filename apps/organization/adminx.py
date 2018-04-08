@@ -16,7 +16,8 @@ class CourseOrgAdmin(object):
     list_display = ['name', 'desc', 'click_nums', 'fav_nums', 'image', 'address', 'city', 'add_time']
     search_fields = ['name', 'desc', 'click_nums', 'fav_nums', 'image', 'address', 'city']
     list_filter = ['name', 'desc', 'click_nums', 'fav_nums', 'image', 'address', 'city', 'add_time']
-
+    relfield_style = 'fk-ajax'  # 当某一个model有一个外键指向它的时候，它是以一种ajax方式加载完成的
+    # 这样设置的好处：当数据量过大的时候，它不至于一次性把所有数据重载进来
 
 class TeacherAdmin(object):
     list_display = ['org', 'name', 'work_years', 'work_company', 'work_position', 'points', 'click_nums', 'fav_nums', 'add_time']
