@@ -100,7 +100,7 @@ DATABASES = {
         'NAME': "wqqonline",
         'USER': "wqq",
         'PASSWORD': "wqq123",
-        'HOST': "192.168.106.137"
+        'HOST': "192.168.106.138"
     }
 }
 

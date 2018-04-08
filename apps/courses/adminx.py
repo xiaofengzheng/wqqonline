@@ -31,9 +31,26 @@ class CourseAdmin(object):
     refresh_times = [3, 4, 5]  # 定时刷新，里面的数值可能取值，单位是秒
 
     def queryset(self):
+        # 重载queryset方法
         qs = super(CourseAdmin, self).queryset()
         qs = qs.filter(is_banner=False)  # 自定义列表页的访问数据
         return qs
+
+    def save_models(self):
+        """
+        重载save_models方法，这个是在做save的时候可以加入自己的逻辑
+        比如想让课程机构重新统计一遍当前的课程数,每次在做save的时候，当然需要先取到这个课程机构的实例，
+        才能对机构实例做课程数的统计，
+
+         重载目的：在保存课程的时候统计课程机构的课程数目
+         注：新增或修改都会走这个接口，在后台修改课程数据，可以点击保存调试看看
+        """
+        obj = self.new_obj  # 拿到新增的课程，此时还没有做save
+        obj.save()
+        if obj.course_org is not None:
+            course_org = obj.course_org
+            course_org.course_nums = Course.objects.filter(course_org=course_org).count()
+            course_org.save()
 
 
 class BannerCourseAdmin(object):
