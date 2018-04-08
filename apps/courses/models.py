@@ -49,6 +49,12 @@ class Course(models.Model):
         获取课程所有章节
         """
         return self.lesson_set.all()
+    get_zj_nums.short_description = "章节数"  # 在列表页中的显示名称
+
+    def go_to(self):
+        from django.utils.safestring import mark_safe
+        return mark_safe("<a href='http://www.projectsedu.com'>跳转</a>")
+    go_to.short_description = "跳转"
 
     def __str__(self):
         return self.name

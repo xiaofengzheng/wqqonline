@@ -15,7 +15,9 @@ class CourseResourceInline(object):
 
 
 class CourseAdmin(object):
-    list_display = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students']
+    list_display = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students', 'get_zj_nums', 'go_to']
+    # 变量和函数对于Python来说都是一样的，list_display中写入函数get_zj_nums，
+    # get_zj_nums是一个动态值，并不会保存在数据库当中，不过可以调用该函数，使其展现在列表中
     search_fields = ['name', 'desc', 'detail', 'degree', 'students']
     list_filter = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students']
     ordering = ['-click_nums']
@@ -25,10 +27,11 @@ class CourseAdmin(object):
     # 再在exclude中写该字段fav_nums，是不生效的，照样显示出来
     inlines = [LessonInline, CourseResourceInline]
     # 完成课程里面嵌套章节和视频资源，但只能做一层嵌套，即不能再在此页面中的章节里嵌套视频Video，不过可以在章节管理中嵌套视频Video
+    list_editable = ['desc', 'degree']  # 在表列页就可以修改这些字段值，不用点进去
 
     def queryset(self):
         qs = super(CourseAdmin, self).queryset()
-        qs = qs.filter(is_banner=False)
+        qs = qs.filter(is_banner=False)  # 自定义列表页的访问数据
         return qs
 
 
@@ -43,7 +46,7 @@ class BannerCourseAdmin(object):
 
     def queryset(self):
         qs = super(BannerCourseAdmin, self).queryset()
-        qs = qs.filter(is_banner=True)
+        qs = qs.filter(is_banner=True)  # 自定义列表页的访问数据
         return qs
 
 
