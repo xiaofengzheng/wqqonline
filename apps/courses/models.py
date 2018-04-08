@@ -54,6 +54,19 @@ class Course(models.Model):
         return self.name
 
 
+class BannerCourse(Course):
+    class Meta:
+        verbose_name ="轮播课程"
+        verbose_name_plural = verbose_name
+        proxy = True
+        # 一定要设置proxy = True，因为如果继承Course而不设置proxy = True，则会再生成一张表
+        # 设置proxy = True的话不会再生成一张表，并且具有Model的功能
+        # 继承Course只是为了让同一个model（这里是Course）注册两个管理器，
+        # 另外还需在adminx中增加些设置（包括重载queryset方法）
+        # 最终效果：轮播数据由BannerCourseAdmin（轮播课程）来管理，非轮播数据由CourseAdmin（课程）来管理
+        # 其实轮播数据和非轮播数据都在同一个model即同一张表中，在后台展现为了两张表，数据库中只有一张表
+
+
 class Lesson(models.Model):
     course = models.ForeignKey(Course, verbose_name="课程")
     name = models.CharField(max_length=100, verbose_name="章节名")

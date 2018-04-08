@@ -1,7 +1,7 @@
 __author__ = 'wqq'
 __date__ = '2018/3/28 10:51'
 import xadmin
-from .models import Course, Lesson, Video, CourseResource
+from .models import Course, Lesson, Video, CourseResource, BannerCourse
 
 
 class LessonInline(object):
@@ -26,6 +26,26 @@ class CourseAdmin(object):
     inlines = [LessonInline, CourseResourceInline]
     # 完成课程里面嵌套章节和视频资源，但只能做一层嵌套，即不能再在此页面中的章节里嵌套视频Video，不过可以在章节管理中嵌套视频Video
 
+    def queryset(self):
+        qs = super(CourseAdmin, self).queryset()
+        qs = qs.filter(is_banner=False)
+        return qs
+
+
+class BannerCourseAdmin(object):
+    list_display = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students']
+    search_fields = ['name', 'desc', 'detail', 'degree', 'students']
+    list_filter = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students']
+    ordering = ['-click_nums']
+    readonly_fields = ['click_nums']
+    exclude = ['fav_nums']
+    inlines = [LessonInline, CourseResourceInline]
+
+    def queryset(self):
+        qs = super(BannerCourseAdmin, self).queryset()
+        qs = qs.filter(is_banner=True)
+        return qs
+
 
 class LessonAdmin(object):
     list_display = ['course', 'name', 'add_time']
@@ -46,6 +66,7 @@ class CourseResourceAdmin(object):
 
 
 xadmin.site.register(Course, CourseAdmin)
+xadmin.site.register(BannerCourse, BannerCourseAdmin)
 xadmin.site.register(Lesson, LessonAdmin)
 xadmin.site.register(Video, VideoAdmin)
 xadmin.site.register(CourseResource, CourseResourceAdmin)
