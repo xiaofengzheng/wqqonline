@@ -4,6 +4,16 @@ import xadmin
 from .models import Course, Lesson, Video, CourseResource
 
 
+class LessonInline(object):
+    model = Lesson
+    extra = 0
+
+
+class CourseResourceInline(object):
+    model = CourseResource
+    extra = 0
+
+
 class CourseAdmin(object):
     list_display = ['name', 'desc', 'detail', 'degree', 'learn_times', 'students']
     search_fields = ['name', 'desc', 'detail', 'degree', 'students']
@@ -13,6 +23,8 @@ class CourseAdmin(object):
     exclude = ['fav_nums']
     # readonly_fields、exclude这两个字段是冲突的，如果readonly_fields有fav_nums该字段，
     # 再在exclude中写该字段fav_nums，是不生效的，照样显示出来
+    inlines = [LessonInline, CourseResourceInline]
+    # 完成课程里面嵌套章节和视频资源，但只能做一层嵌套，即不能再在此页面中的章节里嵌套视频Video，不过可以在章节管理中嵌套视频Video
 
 
 class LessonAdmin(object):
